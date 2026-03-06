@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Performance - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---- Global ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    background-color: #f4f6f8;
+    padding: 20px;
+}
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #1e3a8a;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    width: fit-content;
+    transition: 0.2s;
+}
+.back-btn:hover {
+    background-color: #162f6a;
+}
+
+/* ---- Layout ---- */
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.performance-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.student-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+.summary-card {
+    background-color: #f0f4ff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 220px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.summary-card h2 {
+    font-size: 20px;
+    color: #1e3a8a;
+    margin-bottom: 5px;
+}
+.summary-card p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+thead {
+    background-color: #1e3a8a;
+    color: #fff;
+}
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+tbody tr:hover {
+    background-color: #f0f4ff;
+}
+.rank {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+</style>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="main-content">
+
+    <!-- Back Button -->
+    <a href="{{ url_for('student_classroom_features', classroom_id=classroom.id) }}" class="back-btn">
+        ← Back
+    </a>
+
+    <h1>Student Performance Dashboard</h1>
+
+    <div class="performance-container">
+
+        <!-- Summary Cards -->
+        <div class="student-summary">
+            <div class="summary-card">
+    <h2>{{ student.username }}</h2>
+    <p>Overall Average: {{ overall_percentage }}%</p>
+</div>
+
+            <div class="summary-card">
+                <h2>Total Tests</h2>
+                <p>{{ total_tests }} Tests Taken</p>
+            </div>
+            <div class="summary-card">
+                <h2>Best Score</h2>
+                <p>{{ best_score }}% ({{ best_test_name }})</p>
+            </div>
+            <div class="summary-card">
+                <h2>Rank</h2>
+                <p class="rank">{{ student_rank }}{{ rank_suffix }}</p>
+            </div>
+        </div>
+
+        <!-- Detailed Test Analysis -->
+        <h2>All Test Analysis</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Max Marks</th>
+                    <th>Percentage</th>
+                    <th>Rank</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in test_records %}
+                <tr>
+                    <td>{{ rec.test_name }}</td>
+                    <td>{{ rec.date }}</td>
+                    <td>{{ rec.score }}</td>
+                    <td>{{ rec.max_marks }}</td>
+                    <td>{{ rec.percentage }}%</td>
+                    <td>{{ rec.rank }}</td>
+                    <td>{{ rec.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

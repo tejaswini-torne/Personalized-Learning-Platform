@@ -1,0 +1,26 @@
+<!-- Create MCQ Test -->
+<a href="{{ url_for('create_mcq_test', classroom_id=classroom.id) }}">
+  <i data-lucide="file-text"></i> Create MCQ Test
+</a>
+
+<!-- View Test Records -->
+<a href="{{ url_for('view_test_records', classroom_id=classroom.id) }}">
+  <i data-lucide="database"></i> View Test Records
+</a>
+
+<!-- Query Test -->
+<a href="{{ url_for('teacher_query_test', classroom_id=classroom.id) }}">
+  <i data-lucide="database"></i> Query Test
+</a>
+
+<!-- Doubt Session -->
+<a href="{{ url_for('doubt_session', classroom_id=classroom.id) }}">
+  <i data-lucide="help-circle"></i> Doubt Session
+</a>
+
+<!-- Analysis -->
+<a href="{{ url_for('analysis', classroom_id=classroom.id) }}">
+  <i data-lucide="bar-chart-2"></i> Analysis
+</a>
+
+

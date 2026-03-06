@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completed Tests</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#eef2ff;padding:2rem;}
+.container{max-width:900px;margin:0 auto;}
+h1{text-align:center;color:#1E3A8A;font-weight:700;margin-bottom:2rem;}
+.back-btn{display:inline-block;background:#1E3A8A;color:white;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;margin-bottom:20px;transition:0.3s;}
+.back-btn:hover{ background:#3B82F6; }
+.test-card{background:white;padding:1.2rem 1.5rem;border-radius:12px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.test-info h3{font-size:1.1rem;font-weight:700;}
+.test-info p{margin-top:4px;color:#555;}
+.buttons{display:flex;flex-direction:column;align-items:flex-end;gap:0.4rem;}
+.view-btn{background:#3B82F6;color:white;padding:8px 15px;border:none;border-radius:6px;cursor:pointer;font-weight:600;transition:0.3s;text-decoration:none;}
+.view-btn:hover{ background:#2563eb; }
+.status{padding:5px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;}
+.completed{background:#d1fae5;color:#065f46;}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- Back Button -->
+  <a href="{{ url_for('student_classroom_features', classroom_id=classroom_id) }}" class="back-btn">← Back</a>
+
+  <h1>Completed Tests</h1>
+
+  {% for test in tests %}
+  <div class="test-card">
+
+    <div class="test-info">
+      <h3>{{ test.title }}</h3>
+      <p>Date: {{ test.created_at }}</p>
+    </div>
+
+    <div class="buttons">
+      <span class="status completed">Completed</span>
+      <span class="status completed">Marks: {{ test.marks }}</span>
+      
+<a href="{{ url_for('test_record_detail', test_id=test.id) }}" class="view-btn">View</a>
+        View
+      </a>
+    </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+</body>
+</html>

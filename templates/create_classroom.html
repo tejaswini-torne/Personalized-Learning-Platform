@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Classroom - SQL Assessment Platform</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #e9f3ff; }
+  .navbar { position: sticky; top:0; display:flex; align-items:center; padding:1rem 3rem; background: linear-gradient(90deg, #1E3A8A, #3B82F6); color:white; }
+  .navbar .logo { font-size:1.8rem; font-weight:700; }
+  .classroom-container { max-width: 400px; margin: 80px auto; background: white; padding: 50px; border-radius: 12px; box-shadow: 0px 4px 15px rgba(0,0,0,0.1); text-align:center; }
+  .classroom-container h2 { margin-bottom: 20px; color: #0056b3; }
+  .classroom-container input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; outline: none; }
+  .classroom-container input:focus { border-color: #0056b3; }
+  .classroom-container button { width: 100%; padding: 12px; background: #0056b3; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+  .classroom-container button:hover { background: #003d82; }
+  .back-link { display:inline-block; margin-top:20px; font-size:0.95rem; color:#1E3A8A; font-weight:600; text-decoration:none; transition:0.3s; }
+  .back-link:hover { color:#3B82F6; text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">SQL Assessment</div>
+</header>
+
+<div class="classroom-container">
+  <h2>Create Classroom</h2>
+  <form method="POST">
+    <input type="text" name="name" placeholder="Classroom Name" required />
+    <input type="text" name="subject" placeholder="Subject" />
+    <input type="text" name="section" placeholder="Section / Batch" />
+    <button type="submit">Create Classroom</button>
+  </form>
+  <a href="{{ url_for('teacher_dashboard') }}" class="back-link">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>

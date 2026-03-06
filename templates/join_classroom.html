@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Classroom - SQL Assessment Platform</title>
+  <style>
+    /* ===== Global Styling ===== */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #e9f3ff; /* faint blue background */
+    }
+
+    /* ---- Navbar ---- */
+    .navbar {
+      position: sticky;
+      top:0;
+      z-index:1000;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      padding:1rem 3rem;
+      background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .navbar .logo {
+      font-size:1.8rem;
+      font-weight:700;
+      color:white;
+    }
+
+    /* ===== Join Classroom Form ===== */
+    .classroom-container {
+      max-width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+      text-align:center;
+    }
+
+    .classroom-container h2 {
+      margin-bottom: 20px;
+      color: #0056b3;
+    }
+
+    .classroom-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .classroom-container input:focus {
+      border-color: #0056b3;
+    }
+
+    .classroom-container button {
+      width: 100%;
+      padding: 12px;
+      background: #0056b3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .classroom-container button:hover {
+      background: #003d82;
+    }
+
+    /* ===== Back Link ===== */
+    .back-link {
+      display:inline-block;
+      margin-top:20px;
+      font-size:0.95rem;
+      color:#1E3A8A;
+      font-weight:600;
+      text-decoration:none;
+      transition:0.3s;
+    }
+    .back-link:hover {
+      color:#3B82F6;
+      text-decoration:underline;
+    }
+
+    /* ===== Flash Messages ===== */
+    .flash {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .flash-success { background: #d1fae5; color: #065f46; }
+    .flash-danger { background: #fee2e2; color: #b91c1c; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">SQL Assessment</div>
+</header>
+
+  <!-- Join Classroom Form -->
+  <div class="classroom-container">
+    <h2>Join Classroom</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('join_classroom') }}" method="POST">
+      <input type="text" name="code" placeholder="Enter Classroom Code" required />
+      <button type="submit">Join Classroom</button>
+    </form>
+
+    <!-- Back to Dashboard -->
+    <a href="{{ url_for('student_dashboard') }}" class="back-link">← Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

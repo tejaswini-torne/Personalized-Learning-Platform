@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ test.title }} - Test Details</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body {background:#eef2ff;padding:2rem;}
+.container {max-width:900px;margin:0 auto;}
+h1 {text-align:center;color:#1E3A8A;font-weight:700;margin-bottom:1rem;}
+.back-btn {display:inline-block;background:#1E3A8A;color:white;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;margin-bottom:20px;transition:0.3s;}
+.back-btn:hover {background:#3B82F6;}
+.legend {margin-bottom:20px; font-weight:600; color:#1E3A8A;}
+.legend span {display:inline-block; margin-right:20px;}
+
+.question-card {
+  background:white;
+  padding:1.5rem;
+  border-radius:12px;
+  margin-bottom:1rem;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.question-card h3 {font-size:1rem;font-weight:600;margin-bottom:0.5rem;}
+
+.option {
+  display:flex;
+  align-items:center;
+  margin:0.5rem 0;
+  padding:8px 12px;
+  border-radius:8px;
+  border:2px solid transparent;
+  font-weight:500;
+  transition:0.2s;
+}
+.option:hover {background:#f3f4f6;}
+.option input[type="radio"] {
+  margin-right:10px;
+  accent-color:inherit;
+}
+.option-icon {
+  margin-right:10px;
+  font-size:1.2rem;
+}
+
+.student-answer {
+  background:#fee2e2;
+  color:#b91c1c;
+  border-color:#f87171;
+  box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+.student-correct {
+  background:#a5f3fc;
+  color:#065f46;
+  border-color:#10b981;
+  box-shadow:0 0 5px rgba(0,0,0,0.15);
+}
+.correct-answer {
+  background:#d1fae5;
+  color:#065f46;
+  border-color:#22c55e;
+}
+
+.marks {font-weight:600;margin-top:5px;color:#1E3A8A;}
+.total-marks {font-weight:700;font-size:1.1rem;margin-bottom:1rem;text-align:center;color:#1E3A8A;}
+
+.student-answer {
+  background:#fee2e2;
+  color:#b91c1c;
+  border-color:#f87171;
+  font-weight:600;
+  box-shadow:0 0 5px rgba(0,0,0,0.15);
+}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- Back Button -->
+  <a href="{{ url_for('student_test_and_records', classroom_id=test.classroom_id) }}" class="back-btn">← Back</a>
+
+  <!-- Test Title -->
+  <h1>{{ test.title }}</h1>
+
+  <!-- Total Marks -->
+  <div class="total-marks">
+    Total Marks: {{ total_obtained }} / {{ total_marks }}
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span>✔️ Student Correct Choice</span>
+    <span>❌ Student Wrong Choice</span>
+    <span>✅ Correct Answer</span>
+  </div>
+
+  <!-- Questions -->
+  {% for q in questions %}
+  <div class="question-card">
+    <h3>Q{{ loop.index }}. {{ q.question_text }}</h3>
+
+    {% for opt in q.options %}
+      {% set is_student = (opt == q.student_answer) %}
+      {% set is_correct = (opt == q.correct_option) %}
+      {% set class_name = "" %}
+      {% set icon = "" %}
+
+      {% if is_student and is_correct %}
+        {% set class_name = "student-correct" %}
+        {% set icon = "✔️" %}
+      {% elif is_student and not is_correct %}
+        {% set class_name = "student-answer" %}
+        {% set icon = "❌" %}
+      {% elif is_correct and not is_student %}
+        {% set class_name = "correct-answer" %}
+        {% set icon = "✅" %}
+      {% endif %}
+
+      <label class="option {{ class_name }}">
+        <span class="option-icon">{{ icon }}</span>
+        <input type="radio" disabled {% if is_student %} checked {% endif %}>
+        {{ opt }}
+        {% if is_student and not is_correct %} (Your choice) {% endif %}
+        {% if is_correct and not is_student %} (Correct) {% endif %}
+      </label>
+    {% endfor %}
+
+    <div class="marks">
+      Marks Obtained: {{ q.marks_obtained }} / {{ q.total_marks }}
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+</body>
+</html>

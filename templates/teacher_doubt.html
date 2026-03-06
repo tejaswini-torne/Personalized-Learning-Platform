@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doubt Session - Classroom</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f0f4ff;color:#333;display:flex;}
+.main-content{margin-left:260px;padding:2rem;flex:1;}
+
+/* Back button */
+.back-btn{
+  display:inline-block;
+  margin-bottom:1rem;
+  background:#64748b;
+  color:white;
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.3s;
+}
+.back-btn:hover{background:#475569;}
+
+.main-content h1{text-align:center;color:#1E3A8A;margin-bottom:1rem;}
+.main-content p{text-align:center;color:#555;margin-bottom:2rem;}
+
+/* Announcement */
+.announcement-section{
+  background:white;
+  padding:1.2rem 1.5rem;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom:2rem;
+}
+.announcement-section h2{color:#1E3A8A;margin-bottom:0.8rem;}
+.announcement-section textarea{
+  width:100%;height:100px;padding:0.8rem;
+  border-radius:8px;border:1px solid #ccc;resize:none;
+}
+.announcement-section button{
+  margin-top:0.8rem;background:#1E3A8A;color:white;
+  padding:0.6rem 1rem;border:none;border-radius:8px;font-weight:600;
+}
+.announcement-section button:hover{background:#3B82F6;}
+
+/* Doubt cards */
+.doubt-list{display:flex;flex-direction:column;gap:1rem;}
+.doubt-card{
+  background:white;padding:1.2rem 1.5rem;border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);transition:0.3s;
+}
+.doubt-card:hover{transform:translateY(-3px);}
+
+.student-name{font-size:1.05rem;font-weight:600;color:#1E3A8A;margin-bottom:0.5rem;}
+.doubt-question{font-size:0.95rem;color:#333;margin-bottom:0.6rem;}
+
+.status{font-size:0.85rem;color:#555;margin-bottom:0.8rem;}
+
+.doubt-image img{
+  max-width:300px;border-radius:8px;border:1px solid #e5e7eb;margin-top:0.5rem;
+}
+
+button{
+  border:none;padding:0.5rem 0.9rem;border-radius:8px;
+  cursor:pointer;font-weight:500;transition:0.3s;
+}
+button.reply{background:#3B82F6;color:white;}
+button.resolve{background:#10B981;color:white;}
+button.delete{background:#EF4444;color:white;}
+button:hover{opacity:0.85;}
+
+.reply-textarea{
+  width:100%;padding:0.5rem;border-radius:6px;
+  border:1px solid #ccc;resize:none;margin-bottom:0.3rem;
+}
+
+.reply-block{
+  margin-top:0.7rem;padding:0.7rem;background:#f1f5f9;
+  border-radius:6px;border-left:4px solid #1E3A8A;
+}
+.main-content {
+  max-width: 900px; /* optional, controls width */
+  margin: 2rem auto; /* centers horizontally */
+  padding: 2rem;
+  flex: none; /* remove flex-grow */
+}
+
+</style>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<main class="main-content">
+
+  <a href="{{ url_for('teacher_classroom_features', classroom_id=classroom.id) }}" class="back-btn">← Back</a>
+
+  <h1>Doubts </h1>
+  <p>Post clarifications and respond to student queries.</p>
+
+ 
+
+  <!-- Doubt List -->
+  <div class="doubt-list">
+    {% if doubts %}
+      {% for d in doubts %}
+        <div class="doubt-card">
+
+          <div class="student-name">
+            {{ d.student_name }}
+          </div>
+
+          <div class="doubt-question">{{ d.description }}</div>
+
+          {% if d.image_filename %}
+          <div class="doubt-image">
+            <img src="{{ url_for('static', filename='uploads/doubts/' ~ d.image_filename) }}" alt="Doubt Image">
+          </div>
+          {% endif %}
+
+          <!-- Status -->
+          <div class="status">
+            <strong>Status:</strong> {{ d.status }}
+          </div>
+
+          {% if d.reply %}
+          <div class="reply-block">
+            <strong>Reply:</strong> {{ d.reply }}
+          </div>
+          {% endif %}
+
+          <!-- Reply Form -->
+          <form action="{{ url_for('reply_student_doubt', doubt_id=d.id) }}" method="POST">
+            <textarea name="reply" class="reply-textarea" placeholder="Write your reply..." required>{{ d.reply }}</textarea>
+            <button type="submit" class="reply">Reply</button>
+          </form>
+
+          <!-- Resolve + Delete Buttons -->
+          <div class="doubt-actions" style="margin-top:0.5rem;">
+            <form action="{{ url_for('resolve_student_doubt', doubt_id=d.id) }}" method="POST" style="display:inline;">
+              <button type="submit" class="resolve">Mark Resolved</button>
+            </form>
+            <form action="{{ url_for('delete_student_doubt_teacher', doubt_id=d.id) }}" method="POST" style="display:inline;">
+              <button type="submit" class="delete">Delete</button>
+            </form>
+          </div>
+
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align:center;">No doubts submitted yet.</p>
+    {% endif %}
+  </div>
+
+</main>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

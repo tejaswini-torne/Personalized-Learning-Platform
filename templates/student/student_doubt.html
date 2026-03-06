@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doubt Session - Student View</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest" defer></script>
+
+<style>
+/* ---- Global ---- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f0f4ff;
+  color: #333;
+  display: flex;
+}
+
+.main-content {
+  max-width: 900px; /* optional, controls width */
+  margin: 2rem auto; /* centers horizontally */
+  padding: 2rem;
+  flex: none; /* remove flex-grow */
+}
+
+
+h1 {
+  color: #1E3A8A;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.section h2 {
+  color: #1E3A8A;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.upload-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px dashed #93c5fd;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1E3A8A;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 1rem;
+}
+
+.upload-label:hover {
+  background: #dbeafe;
+}
+
+.upload-preview {
+  width: 100%;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.upload-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.submit-btn {
+  background: #1E3A8A;
+  color: white;
+  padding: 0.6rem 1.2rem;
+}
+
+.submit-btn:hover {
+  background: #2563EB;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  margin-left: 0.5rem;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+.doubt-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.doubt-card strong {
+  color: #1E3A8A;
+}
+
+.doubt-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.doubt-image {
+  margin-top: 0.8rem;
+}
+
+.doubt-image img {
+  max-width: 300px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Back button */
+.back-btn {
+  background: #64748b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #475569;
+}
+</style>
+</head>
+
+<body>
+<main class="main-content">
+
+  <!-- Back -->
+  <div style="margin-bottom: 1rem;">
+    <a href="{{ url_for('student_classroom_features', classroom_id=classroom_id) }}" style="text-decoration:none;">
+      <button class="back-btn">← Back</button>
+    </a>
+  </div>
+
+  <h1>Ask Your Doubts</h1>
+
+  <!-- Announcement -->
+  <div class="section" style="background:#eff6ff;border:1px solid #bfdbfe;">
+    <h2>📢 Announcement</h2>
+    <p>You can ask your SQL or DBMS-related questions below. You may either type your doubt or upload an image (e.g., error message or handwritten note).</p>
+  </div>
+
+  <!-- Ask Doubt Form -->
+  <div class="section">
+    <h2>1️⃣ Submit a Doubt</h2>
+
+    <form action="{{ url_for('submit_student_doubt', classroom_id=classroom_id) }}" method="POST" enctype="multipart/form-data">
+
+      <textarea name="doubtDesc" rows="4" placeholder="Describe your doubt here..." required></textarea>
+
+      <label for="doubtImage" class="upload-label">
+        <i data-lucide="image"></i> Upload Image (optional)
+      </label>
+
+      <input type="file" name="doubtImage" id="doubtImage" style="display:none;" onchange="previewImage(event)">
+      <div class="upload-preview" id="imagePreview"></div>
+
+      <button type="submit" class="submit-btn">Submit Doubt</button>
+
+    </form>
+  </div>
+
+  <!-- Doubt List -->
+  <div class="section">
+    <h2>2️⃣ Your Submitted Doubts</h2>
+
+    <div id="doubtList">
+
+      {% if doubts %}
+        {% for d in doubts %}
+        <div class="doubt-card">
+
+          <div class="doubt-meta">
+            Submitted on: {{ d.date_created.strftime('%d-%m-%Y %H:%M') }}
+          </div>
+
+          <p><strong>Your Doubt:</strong> {{ d.description }}</p>
+
+          {% if d.image_filename %}
+          <div class="doubt-image">
+            <img src="{{ url_for('static', filename='uploads/doubts/' ~ d.image_filename) }}" alt="Doubt Image">
+          </div>
+          {% endif %}
+
+          <!-- Teacher Reply -->
+          {% if d.reply %}
+          <div style="background:#ecfdf5;border-left:4px solid #10b981;padding:0.8rem;border-radius:6px;margin-top:1rem;">
+            <strong style="color:#065f46;">Teacher Reply:</strong>
+            <p>{{ d.reply }}</p>
+            {% if d.reply_date %}
+              <small style="color:#64748b;">Replied on: {{ d.reply_date.strftime('%d-%m-%Y %H:%M') }}</small>
+            {% endif %}
+          </div>
+          {% else %}
+          <div style="background:#fff7ed;border-left:4px solid #f59e0b;padding:0.8rem;border-radius:6px;margin-top:1rem;">
+            <strong style="color:#b45309;">Status:</strong>
+            <p>Waiting for teacher’s reply...</p>
+          </div>
+          {% endif %}
+
+          <!-- Delete -->
+          <form action="{{ url_for('delete_student_doubt', classroom_id=classroom_id, doubt_id=d.id) }}"
+                method="POST" style="display:inline;">
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+
+        </div>
+        {% endfor %}
+
+      {% else %}
+        <p>No doubts submitted yet.</p>
+      {% endif %}
+
+    </div>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  lucide.createIcons();
+});
+
+// Image preview
+function previewImage(event) {
+  const preview = document.getElementById("imagePreview");
+  preview.innerHTML = "";
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.innerHTML = `<img src="${e.target.result}" alt="Doubt Image Preview">`;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+</script>
+
+</body>
+</html>

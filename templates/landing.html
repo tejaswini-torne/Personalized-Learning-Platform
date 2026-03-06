@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---- Global ---- */
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+body {background:#f0f4ff;color:#333;}
+a {text-decoration:none;}
+
+/* ---- Navbar ---- */
+.navbar {
+position: sticky;
+top:0;
+z-index:1000;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:1rem 3rem;
+background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.navbar .logo {font-size:1.8rem;font-weight:700;color:white;}
+.navbar ul {display:flex;gap:2rem;align-items:center;list-style:none;}
+.navbar ul li a {color:white;font-weight:500;transition:0.3s;}
+.navbar ul li a:hover {background:#60A5FA;color:white;;transform:scale(1.05);}
+.navbar .get-started {background:white;color:#1E3A8A;padding:0.5rem 1.2rem;border-radius:30px;font-weight:600;transition:0.3s;}
+.navbar .get-started:hover {background:#60A5FA;color:white;}
+
+/* ---- Hero Section ---- */
+.hero {
+width:100%;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+overflow:hidden;
+background: linear-gradient(135deg,#60A5FA,#93C5FD);
+}
+.hero::before, .hero::after {
+content:'';
+position:absolute;
+border-radius:50%;
+opacity:0.3;
+}
+.hero::before {width:400px;height:400px;background:#1E3A8A;top:-50px;left:-50px;}
+.hero::after {width:300px;height:300px;background:#3B82F6;bottom:-50px;right:-50px;}
+.hero-content {
+position:relative;
+max-width:600px;
+text-align:center;
+z-index:1;
+animation:slideFadeIn 1s ease forwards;
+}
+.hero h1 {font-size:3rem;color:white;margin-bottom:1rem;}
+.hero p {font-size:1.2rem;margin-bottom:2rem;color:#e0f2fe;}
+.cta-button {background:#1E3A8A;color:white;padding:0.8rem 2rem;border-radius:30px;font-weight:600;transition:0.3s;}
+.cta-button:hover {background:#2563EB;transform:scale(1.05);}
+
+/* ---- Features Section ---- */
+.features {padding:6rem 2rem;background:#e0f2fe;text-align:center;}
+.features h2 {font-size:2.5rem;color:#1E3A8A;margin-bottom:3rem;}
+.feature-cards {display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;}
+.card {background:white;padding:2rem;border-radius:20px;width:260px;box-shadow:0 4px 12px rgba(30,58,138,0.2);transition:all 0.3s;}
+.card:hover {transform:translateY(-10px) scale(1.05);box-shadow:0 10px 20px rgba(30,58,138,0.3);}
+.card h3 {color:#1E3A8A;margin-bottom:0.75rem;}
+.card p {color:#555;}
+
+/* ---- About Section ---- */
+.about {display:flex;flex-wrap:wrap;align-items:center;padding:6rem 2rem;background:#93C5FD;}
+.about-text {flex:1;min-width:300px;margin-right:2rem;}
+.about-text h2 {font-size:2.3rem;color:#1E3A8A;margin-bottom:1rem;}
+.about-text p {font-size:1.1rem;color:#1E40AF;}
+.about-image {flex:1;min-width:300px;text-align:center;}
+.about-image img {max-width:400px;border-radius:20px;}
+
+/* ---- Footer ---- */
+.footer {background:linear-gradient(90deg,#1E3A8A,#3B82F6);color:white;padding:2rem;text-align:center;}
+.footer a {color:#a5b4fc;margin:0 0.5rem;transition:0.3s;}
+.footer a:hover {color:white;}
+
+/* ---- Animations ---- */
+@keyframes slideFadeIn {
+0% {opacity:0;transform:translateY(50px);}
+100% {opacity:1;transform:translateY(0);}
+}
+
+/* ---- Responsive ---- */
+@media(max-width:768px){
+.hero {flex-direction:column;text-align:center;padding:4rem 1.5rem;}
+.about {flex-direction:column;}
+.about-text {margin-right:0;margin-bottom:2rem;}
+.feature-cards,.team-members {flex-direction:column;align-items:center;}
+} </style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+
+<header class="navbar">
+  <div class="logo">Personalized Assessment Platform</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="/get-started" class="get-started">Get Started</a></li>
+  </ul>
+</header>
+
+<!-- Hero Section -->
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Master Learning with Real Assessments</h1>
+    <p>Evaluate, improve, and track your Learning skills with interactive challenges and analytics.</p>
+    <a href="/get-started" class="cta-button">Get Started</a>
+  </div>
+</section>
+
+<!-- Features Section -->
+
+<section class="features" id="features">
+  <h2>Why Choose SQL Assessment?</h2>
+  <div class="feature-cards">
+    <div class="card"><h3>Interactive Tests</h3><p>Hands-on  problems to practice real-world scenarios.</p></div>
+    <div class="card"><h3>Instant Feedback</h3><p>Immediate results with tips to improve your queries.</p></div>
+    <div class="card"><h3>Performance Tracking</h3><p>Visual charts to monitor your progress over time.</p></div>
+    <div class="card"><h3>Adaptive Difficulty</h3><p>Tests adapt to your skill level for efficient learning.</p></div>
+  </div>
+</section>
+
+<!-- About Section -->
+
+<section class="about" id="about">
+  <div class="about-text">
+    <h2>About Personalized Assessment Platform</h2>
+    <p>Personalized Assessment is a professional platform designed to help learners and professionals improve their  knowledge through interactive tests, instant feedback, and detailed performance reports.</p>
+  </div>
+  <div class="about-image">
+    <img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?auto=format&fit=crop&w=600&q=80" alt="SQL Illustration">
+  </div>
+</section>
+
+<!-- Footer -->
+
+<footer class="footer">
+  <p>&copy; 2025 Personalized Assessment Platform </p>
+</footer>
+
+</body>
+</html>

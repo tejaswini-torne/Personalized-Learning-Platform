@@ -1,0 +1,139 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - SQL Assessment Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #e9f3ff;
+    }
+
+    .navbar {
+      position: sticky;
+      top:0;
+      z-index:1000;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1rem 3rem;
+      background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .navbar .logo {font-size:1.8rem;font-weight:700;color:white;}
+
+    .register-container {
+      max-width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0056b3;
+    }
+
+    .register-container input,
+    .register-container select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .register-container input:focus,
+    .register-container select:focus {
+      border-color: #0056b3;
+    }
+
+    .register-container button {
+      width: 100%;
+      padding: 12px;
+      background: #0056b3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .register-container button:hover {
+      background: #003d82;
+    }
+
+    .register-container p {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .register-container p a {
+      color: #0056b3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register-container p a:hover {
+      text-decoration: underline;
+    }
+
+    /* Flash message styling */
+    .flash-message {
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .flash-success { background-color: #d1fae5; color: #065f46; }
+    .flash-danger { background-color: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">SQL Assessment</div>
+</header>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="register-container">
+  <h2>Create Your Account</h2>
+  <form method="POST" action="{{ url_for('register') }}">
+    <input type="text" name="username" placeholder="Full Name" required />
+    <input type="email" name="email" placeholder="Email Address" required />
+    <input type="password" name="password" placeholder="Password" required />
+    
+    <!-- Role dropdown -->
+    <select name="role" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+    
+    <button type="submit">Register</button>
+  </form>
+  <p>Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+
+</body>
+</html>
+```

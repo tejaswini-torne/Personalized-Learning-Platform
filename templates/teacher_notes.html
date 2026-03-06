@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Notes</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f1f4ff; padding: 30px; }
+        .top-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-button { background-color: #1e3a8a; color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; transition: 0.2s ease; }
+        .back-button:hover { background-color: #2563eb; }
+        h1 { color: #1a237e; font-size: 1.8rem; margin: 0; }
+        .upload-container { max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 15px rgba(0,0,0,0.1); }
+        label { font-weight: 600; color: #1a237e; display: block; margin-bottom: 8px; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; margin-bottom: 18px; border: 1px solid #ccc; border-radius: 6px; }
+        .btn { background-color: #1a237e; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background-color: #e53935; }
+        .btn-view { background-color: #1565c0; }
+        .note-item { display: flex; align-items: center; justify-content: space-between; background-color: white; padding: 12px 18px; border-radius: 12px; margin: 12px auto; box-shadow: 0px 4px 12px rgba(0,0,0,0.08); max-width: 700px; }
+        .note-title { font-weight: 600; color: #1a237e; }
+        .note-item div:last-child { display: flex; gap: 10px; }
+        h2 { color: #1a237e; margin-top: 40px; text-align: center; }
+
+        /* Flash message styling */
+        .flash { max-width: 600px; margin: 15px auto; padding: 10px 15px; border-radius: 8px; text-align: center; font-weight: 600; }
+        .flash-success { background-color: #d1fae5; color: #065f46; }
+        .flash-danger { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="{{ url_for('teacher_classroom_features', classroom_id=classroom.id) }}" class="back-button">← Back</a>
+        <h1>Upload Notes</h1>
+    </div>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="upload-container">
+        <form method="POST" enctype="multipart/form-data">
+            <label for="title">Note Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter note name" required>
+
+            <label for="file">Upload File</label>
+            <input type="file" id="file" name="file" required>
+
+            <button type="submit" class="btn">Upload</button>
+        </form>
+    </div>
+
+    <h2>Uploaded Notes</h2>
+
+    {% if notes %}
+        {% for note in notes %}
+        <div class="note-item">
+            <div class="note-title">{{ note.title }}</div>
+
+            <div>
+                {% if note.filename %}
+                <a href="{{ url_for('view_teacher_note', filename=note.filename) }}" 
+                   target="_blank" class="btn btn-view">View</a>
+                {% endif %}
+
+                <form method="POST"
+                      action="{{ url_for('delete_teacher_note', note_id=note.id, classroom_id=classroom.id) }}"
+                      style="display:inline;">
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this note?')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No notes uploaded yet.</p>
+    {% endif %}
+
+</body>
+</html>

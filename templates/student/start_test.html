@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ test.title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #eef2ff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Back Button */
+        .back-btn{
+          display:inline-block;
+          background:#1E3A8A;
+          color:white;
+          padding:8px 16px;
+          border-radius:6px;
+          text-decoration:none;
+          font-weight:600;
+          margin-bottom:20px;
+          transition:0.3s;
+        }
+        .back-btn:hover{ background:#3B82F6; }
+
+        .question-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 5px solid #3B82F6;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .option {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            display: inline-block;
+            background: #1E3A8A;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <!-- BACK BUTTON -->
+    <a href="{{ url_for('student_new_tests', classroom_id=test.classroom_id) }}" class="back-btn">← Back</a>
+
+    <h2>{{ test.title }}</h2>
+    <p><b>Created on:</b> {{ test.created_at.strftime("%Y-%m-%d") }}</p>
+
+    <hr><br>
+
+    <form action="{{ url_for('submit_test', test_id=test.id) }}" method="POST">
+
+        {% for q in questions %}
+        <div class="question-box">
+            <p><b>Q{{ loop.index }}. {{ q.question_text }}</b></p>
+
+            {% for option in q.options %}
+            <div class="option">
+                <label>
+                    <input type="radio" name="question_{{ q.id }}" value="{{ option.id }}">
+                    {{ option.option_text }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="submit-btn">Submit Test</button>
+    </form>
+
+</div>
+</body>
+</html>

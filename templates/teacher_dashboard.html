@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard - SQL Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script>
+  // Prevent back button after logout
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+    window.onpageshow = function(event) {
+      if (event.persisted) {
+        window.location.href = '/';
+      }
+    };
+  }
+
+  // Confirm leave classroom
+  function confirmLeave() {
+      return confirm("Do you really want to leave this classroom?");
+  }
+</script>
+
+<style>
+/* ---- Global ---- */
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+body {background:#f0f4ff;color:#333;}
+a {text-decoration:none;}
+
+/* ---- Navbar ---- */
+.navbar {
+  position: sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 3rem;
+  background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.navbar .logo { font-size:1.8rem; font-weight:700; color:white; }
+.navbar .nav-buttons { display:flex; gap:1rem; }
+.navbar .nav-buttons a {
+  background:white; color:#1E3A8A;
+  padding:0.5rem 1.2rem; border-radius:30px;
+  font-weight:600; cursor:pointer; transition:0.3s;
+}
+.navbar .nav-buttons a:hover { background:#60A5FA; color:white; transform:scale(1.05); }
+
+/* ---- Classroom Section ---- */
+.classrooms-container { padding:3rem; }
+.classrooms-title {
+  font-size:2rem; font-weight:700; color:#1E3A8A;
+  margin-bottom:2rem; text-align:center;
+}
+
+.classroom-cards {
+  display:grid; grid-template-columns: repeat(5, 1fr); gap:1.5rem;
+}
+
+.card {
+  background:white; 
+  border-radius:20px; 
+  box-shadow:0 6px 15px rgba(30,58,138,0.2);
+  padding:2rem; 
+  display:flex; 
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center; 
+  transition:all 0.3s ease;
+  cursor:pointer;
+}
+.card:hover {
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:0 12px 24px rgba(30,58,138,0.3);
+}
+
+.card h3 { font-size:1.3rem; color:#1E3A8A; margin-bottom:0.8rem; }
+.card p { font-size:1rem; color:#374151; }
+
+.card a { text-decoration:none; color:inherit; }
+
+
+
+/* ---- Responsive ---- */
+@media(max-width:1200px){ .classroom-cards {grid-template-columns:repeat(3, 1fr);} }
+@media(max-width:768px){ .classroom-cards {grid-template-columns:repeat(2, 1fr);} }
+@media(max-width:500px){ .classroom-cards {grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">Personalized Assessment Platform</div>
+  <div class="nav-buttons">
+    <a href="{{ url_for('create_classroom') }}">Create Classroom</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</header>
+
+<!-- Classroom Section -->
+<section class="classrooms-container">
+  <h2 class="classrooms-title">Your Classrooms</h2>
+  <div class="classroom-cards">
+    {% if classrooms %}
+      {% for classroom in classrooms %}
+      <div class="card">
+
+        <a href="{{ url_for('teacher_classroom_features', classroom_id=classroom.id) }}">
+          <h3>{{ classroom.name }}</h3>
+          <p>Code: {{ classroom.code }}</p>
+          {% if classroom.subject %}<p>Subject: {{ classroom.subject }}</p>{% endif %}
+          {% if classroom.section %}<p>Section: {{ classroom.section }}</p>{% endif %}
+        </a>
+
+        
+
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="grid-column: 1/-1; text-align:center; font-weight:bold; color:#1E3A8A;">
+        You have not created any classrooms yet.
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+</body>
+</html>
