@@ -98,31 +98,31 @@ These tables are connected using **foreign key relationships** to ensure proper 
 # 🖥️ Screenshots
 
 ### 🏠 Landing Page
-
+<img width="1885" height="908" alt="Image" src="https://github.com/user-attachments/assets/cbe19ab0-ad7e-4749-94b6-d2811f9ed606" />
 
 
 ---
 
 ### 👨‍🎓 Student Dashboard
-
+<img width="1903" height="911" alt="Image" src="https://github.com/user-attachments/assets/0014d2a7-bca8-4e0d-8c7e-c80d37e5ef4f" />
 
 
 ---
 
 ### 🏫 Student Classroom
-
+<img width="1904" height="911" alt="Image" src="https://github.com/user-attachments/assets/c84de275-26ed-4334-9732-92185998c85b" />
 
 
 ---
 
 ### 👩‍🏫 Teacher Dashboard
-
+<img width="1896" height="911" alt="Image" src="https://github.com/user-attachments/assets/7a899e11-8338-4633-8a4e-27706bfbe488" />
 
 
 ---
 
 ### 📚 Teacher Classroom Management
-
+<img width="1907" height="913" alt="Image" src="https://github.com/user-attachments/assets/e4fe5ded-e374-4bd6-9bfb-3457331c2c30" />
 
 
 ---
